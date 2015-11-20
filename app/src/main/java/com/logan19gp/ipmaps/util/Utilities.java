@@ -1,11 +1,18 @@
-package com.logan19gp.ipmaps;
+package com.logan19gp.ipmaps.util;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+
+import com.logan19gp.ipmaps.BuildConfig;
+import com.logan19gp.ipmaps.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,9 +82,9 @@ public class Utilities
      * @param valueToParse
      * @return
      */
-    public static Integer getStrinAsInt(String valueToParse)
+    public static Integer getStringAsInt(String valueToParse)
     {
-        return getStrinAsInt(valueToParse, 0);
+        return getStringAsInt(valueToParse, 0);
     }
 
     /**
@@ -85,14 +92,44 @@ public class Utilities
      * @param retValDefault
      * @return
      */
-    public static Integer getStrinAsInt(String valueToParse, Integer retValDefault)
+    public static Integer getStringAsInt(String valueToParse, Integer retValDefault)
     {
-//        Integer retVal = 0;
         try
         {
             if (isNumeric(valueToParse))
             {
                 retValDefault = Integer.parseInt(valueToParse);
+            }
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+        } finally
+        {
+            return retValDefault;
+        }
+    }
+
+    /**
+     * @param valueToParse
+     * @return
+     */
+    public static Double getStrinAsDbl(String valueToParse)
+    {
+        return getStringAsDbl(valueToParse, 0.0);
+    }
+
+    /**
+     * @param valueToParse
+     * @param retValDefault
+     * @return
+     */
+    public static Double getStringAsDbl(String valueToParse, Double retValDefault)
+    {
+        try
+        {
+            if (isNumericDouble(valueToParse))
+            {
+                retValDefault = Double.parseDouble(valueToParse);
             }
         } catch (Exception ex)
         {
@@ -116,6 +153,64 @@ public class Utilities
         Pattern p = Pattern.compile("[-+]?[0-9]*");
         Matcher m = p.matcher(stringValue);
         return m.matches();
+    }
+
+    /**
+     * @param stringValue
+     * @return
+     */
+    public static boolean isNumericDouble(String stringValue)
+    {
+        if (TextUtils.isEmpty(stringValue))
+        {
+            return false;
+        }
+        Pattern p = Pattern.compile("[-+]?[0-9]*[.]?[0-9]*");
+        Matcher m = p.matcher(stringValue);
+        return m.matches();
+    }
+
+    /**
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context)
+    {
+        try
+        {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return true;
+        }
+    }
+
+    /**
+     * Log only if is a debug build
+     *
+     * @param tag
+     * @param textToLog
+     */
+    public static void logMsg(String tag, String textToLog)
+    {
+        if (BuildConfig.DEBUG)
+        {
+            Log.d(tag, textToLog);
+        }
+    }
+
+    /**
+     * Log only if is a debug build
+     *
+     * @param textToLog
+     */
+    public static void logMsg(String textToLog)
+    {
+        logMsg("LogMsg:", textToLog);
     }
 
 }

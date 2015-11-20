@@ -24,12 +24,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enter_ip"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/button_ok"
-                android:layout_width="60dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/ok_st" />
+                android:layout_width="wrap_content"
+                android:background="@mipmap/ic_maps_pin_drop"
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/input_container"
@@ -84,8 +83,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/input_container_b"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/background"
+            android:orientation="horizontal">
             <TextView
-                android:id="@+id/ip_fifth"
+                android:id="@+id/ip_first_b"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_second_b"
                 style="@style/EditTxt"
                 android:maxLength="3"
                 android:layout_width="0dp"
@@ -94,6 +112,32 @@
                 android:layout_weight="1"
                 android:hint="255"
                 android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_third_b"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_fourth_b"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                style="@style/Header"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
         </LinearLayout>
     </LinearLayout>
     <fragment
