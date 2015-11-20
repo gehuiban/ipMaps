@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="edit_text_height">40dp</dimen>
+	<dimen name="actionbar_title_text_size">16dp</dimen>
+	<dimen name="padding_left">15dp</dimen>
+	<dimen name="padding_above">10dp</dimen>
+	<dimen name="padding_below">5dp</dimen>
+	<dimen name="line_width_stroke">2dp</dimen>
+</resources>

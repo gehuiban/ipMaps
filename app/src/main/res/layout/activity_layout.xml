@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ip_container"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/title_container"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/background"
+            android:orientation="horizontal">
+            <TextView
+                style="@style/Header"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_ip"/>
+
+            <Button
+                android:id="@+id/button_ok"
+                android:layout_width="60dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/ok_st" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/input_container"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/background"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/ip_first"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_second"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_third"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/ip_fourth"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/dash"
+                style="@style/Header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
+            <TextView
+                android:id="@+id/ip_fifth"
+                style="@style/EditTxt"
+                android:maxLength="3"
+                android:layout_width="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_weight="1"
+                android:hint="255"
+                android:inputType="number" />
+        </LinearLayout>
+    </LinearLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+</LinearLayout>
