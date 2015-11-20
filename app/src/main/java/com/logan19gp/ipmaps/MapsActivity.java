@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ipThirdB.setOnClickListener(setListener(ipThirdB, ipThird, null, 7));
         ipFourthB.setOnClickListener(setListener(ipFourthB, ipFourth, null, 8));
 
-        findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.button_map_it).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
