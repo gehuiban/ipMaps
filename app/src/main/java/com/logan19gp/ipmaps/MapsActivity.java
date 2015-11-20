@@ -50,14 +50,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ipThirdB = (TextView) findViewById(R.id.ip_third_b);
         ipFourthB = (TextView) findViewById(R.id.ip_fourth_b);
 
-        ipFirst.setOnClickListener(setListener(ipFirst, null, ipFirstB));
-        ipSecond.setOnClickListener(setListener(ipSecond, null, ipSecondB));
-        ipThird.setOnClickListener(setListener(ipThird, null, ipThirdB));
-        ipFourth.setOnClickListener(setListener(ipFourth, null, ipFourthB));
-        ipFirstB.setOnClickListener(setListener(ipFirstB, ipFirst, null));
-        ipSecondB.setOnClickListener(setListener(ipSecondB, ipSecond, null));
-        ipThirdB.setOnClickListener(setListener(ipThirdB, ipThird, null));
-        ipFourthB.setOnClickListener(setListener(ipFourthB, ipFourth, null));
+        ipFirst.setOnClickListener(setListener(ipFirst, null, ipFirstB, 1));
+        ipSecond.setOnClickListener(setListener(ipSecond, null, ipSecondB, 2));
+        ipThird.setOnClickListener(setListener(ipThird, null, ipThirdB, 3));
+        ipFourth.setOnClickListener(setListener(ipFourth, null, ipFourthB, 4));
+        ipFirstB.setOnClickListener(setListener(ipFirstB, ipFirst, null, 5));
+        ipSecondB.setOnClickListener(setListener(ipSecondB, ipSecond, null, 6));
+        ipThirdB.setOnClickListener(setListener(ipThirdB, ipThird, null, 7));
+        ipFourthB.setOnClickListener(setListener(ipFourthB, ipFourth, null, 8));
 
         findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener()
         {
@@ -99,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     ArrayList<IpResponse> listOfIps = new ArrayList<IpResponse>();
                     for(int firstId = firstInt; firstId <= firstBInt; firstId++)
                     {
-                        for (int secondId = firstId <= firstBInt ? 255 : secondInt; secondId <= ( firstId <= firstBInt ? 255 : secondBInt); secondId++)
+                        for (int secondId = secondInt; secondId <= secondBInt; secondId++)
                         {
                             for (int thirdId = thirdInt; thirdId <= thirdBInt; thirdId++)
                             {
@@ -118,6 +118,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+    }
+
+    private void onValueSet(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                ipSecondB.setText(ipSecond.getText().toString());
+                ipThirdB.setText(ipThird.getText().toString());
+                ipFourthB.setText(ipFourth.getText().toString());
+                break;
+            case 2:
+                ipFirstB.setText(ipFirst.getText().toString());
+                ipThirdB.setText(ipThird.getText().toString());
+                ipFourthB.setText(ipFourth.getText().toString());
+                break;
+            case 3:
+                ipSecondB.setText(ipSecond.getText().toString());
+                ipFirstB.setText(ipFirst.getText().toString());
+                ipFourthB.setText(ipFourth.getText().toString());
+                break;
+            case 4:
+                ipSecondB.setText(ipSecond.getText().toString());
+                ipThirdB.setText(ipThird.getText().toString());
+                ipFirstB.setText(ipFirst.getText().toString());
+                break;
+            case 5:
+                ipSecond.setText(ipSecondB.getText().toString());
+                ipThird.setText(ipThirdB.getText().toString());
+                ipFourth.setText(ipFourthB.getText().toString());
+                break;
+            case 6:
+                ipFirst.setText(ipFirstB.getText().toString());
+                ipThird.setText(ipThirdB.getText().toString());
+                ipFourth.setText(ipFourthB.getText().toString());
+                break;
+            case 7:
+                ipSecond.setText(ipSecondB.getText().toString());
+                ipFirst.setText(ipFirstB.getText().toString());
+                ipFourth.setText(ipFourthB.getText().toString());
+                break;
+            case 8:
+                ipSecond.setText(ipSecondB.getText().toString());
+                ipThird.setText(ipThirdB.getText().toString());
+                ipFirst.setText(ipFirstB.getText().toString());
+                break;
+        }
     }
 
     private Runnable runServerQuery(final String ipAddress, final int buttonPressId, final ArrayList<IpResponse> listOfIps)
@@ -162,7 +209,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ipThird.setText(fis.getString(Constants.IP_THIRD, "4"));
         ipFourth.setText(fis.getString(Constants.IP_FOURTH, "2"));
         ipFirstB.setText(fis.getString(Constants.IP_FIRSTB, "45"));
-        ipSecondB.setText(fis.getString(Constants.IP_SECONDB, "5"));
+        ipSecondB.setText(fis.getString(Constants.IP_SECONDB, "4"));
         ipThirdB.setText(fis.getString(Constants.IP_THIRDB, "4"));
         ipFourthB.setText(fis.getString(Constants.IP_FOURTHB, "2"));
         super.onResume();
@@ -193,7 +240,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         e.putString(Constants.IP_FOURTHB, ipFourthB.getText().toString().trim());
         return (e.commit());
     }
-    private View.OnClickListener setListener(final TextView textView, final TextView limitationViewMin, final TextView limitationViewMax)
+    private View.OnClickListener setListener(final TextView textView, final TextView limitationViewMin,
+                                             final TextView limitationViewMax, final int id)
     {
         return new View.OnClickListener()
         {
@@ -206,6 +254,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void updateIp(int ipValue)
                     {
                         textView.setText(String.valueOf(ipValue));
+                        onValueSet(id);
                     }
                 };
                 Integer limitationMin = 0;
@@ -237,11 +286,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override

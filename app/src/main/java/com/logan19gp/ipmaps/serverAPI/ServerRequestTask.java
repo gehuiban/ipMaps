@@ -1,7 +1,6 @@
 package com.logan19gp.ipmaps.serverAPI;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.AsyncTask;
 
 import com.logan19gp.ipmaps.util.DialogUtil;
@@ -106,7 +105,7 @@ public abstract class ServerRequestTask<BODY_CLASS, RESPONSE extends ResponseOrE
             ex.printStackTrace();
             if (activity != null)
             {
-                DialogUtil.showErrorDialog(activity, 0, "Warning", "Unknown system error.");
+//                DialogUtil.showErrorDialog(activity, 0, "Warning", "Unknown system error.");
             }
 
             errorAction(result);
