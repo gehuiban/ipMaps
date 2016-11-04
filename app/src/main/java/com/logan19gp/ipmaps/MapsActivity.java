@@ -26,15 +26,13 @@ import java.util.ArrayList;
 /**
  * Created by george on 11/19/2015.
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DialogUtil.MyAlertDialogFragment.DialogUtilActivity
-{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DialogUtil.MyAlertDialogFragment.DialogUtilActivity {
     private TextView ipFirst, ipSecond, ipThird, ipFourth, ipFirstB, ipSecondB, ipThirdB, ipFourthB;
     private GoogleMap mMap;
     private int buttonPressedIdGlobal = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ServerAPIClient.initializeRequestQueue(this);
         setContentView(R.layout.activity_layout);
@@ -59,11 +57,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ipThirdB.setOnClickListener(setListener(ipThirdB, ipThird, null, 7));
         ipFourthB.setOnClickListener(setListener(ipFourthB, ipFourth, null, 8));
 
-        findViewById(R.id.button_map_it).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.button_map_it).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 buttonPressedIdGlobal++;
                 String first = ipFirst.getText().toString().trim();
                 String second = ipSecond.getText().toString().trim();
@@ -82,29 +78,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Integer thirdBInt = Utilities.getStringAsInt(thirdB);
                 Integer fourthBInt = Utilities.getStringAsInt(fourthB);
 
-                if(first.equals("10") || (first.equals("192") && second.equals("168"))
-                        || (first.equals("172") && secondInt > 15 && secondInt < 32) )
-                {
+                if (first.equals("10") || (first.equals("192") && second.equals("168"))
+                        || (first.equals("172") && secondInt > 15 && secondInt < 32)) {
                     DialogUtil.showErrorDialog(MapsActivity.this, 23432, "IP Issue", "First IP needs to be public IP address.");
-                }
-                else if(firstB.equals("10") || (firstB.equals("192") && secondB.equals("168"))
-                        || (firstB.equals("172") && secondBInt > 15 && secondBInt < 32) )
-                {
+                } else if (firstB.equals("10") || (firstB.equals("192") && secondB.equals("168"))
+                        || (firstB.equals("172") && secondBInt > 15 && secondBInt < 32)) {
                     DialogUtil.showErrorDialog(MapsActivity.this, 23432, "IP Issue", "Second IP needs to be public IP address.");
-                }
-                else
-                {
+                } else {
                     mMap.clear();
                     int id = 0;
                     ArrayList<IpResponse> listOfIps = new ArrayList<IpResponse>();
-                    for(int firstId = firstInt; firstId <= firstBInt; firstId++)
-                    {
-                        for (int secondId = secondInt; secondId <= secondBInt; secondId++)
-                        {
-                            for (int thirdId = thirdInt; thirdId <= thirdBInt; thirdId++)
-                            {
-                                for (int fourthId = fourthInt; fourthId <= fourthBInt; fourthId++)
-                                {
+                    for (int firstId = firstInt; firstId <= firstBInt; firstId++) {
+                        for (int secondId = secondInt; secondId <= secondBInt; secondId++) {
+                            for (int thirdId = thirdInt; thirdId <= thirdBInt; thirdId++) {
+                                for (int fourthId = fourthInt; fourthId <= fourthBInt; fourthId++) {
                                     id++;
                                     String ipAddress = firstId + "." + secondId + "." + thirdId + "." + fourthId;
                                     // delay calls to avoid 403
@@ -120,10 +107,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void onValueSet(int id)
-    {
-        switch (id)
-        {
+    private void onValueSet(int id) {
+        switch (id) {
             case 1:
                 ipSecondB.setText(ipSecond.getText().toString());
                 ipThirdB.setText(ipThird.getText().toString());
@@ -167,27 +152,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private Runnable runServerQuery(final String ipAddress, final int buttonPressId, final ArrayList<IpResponse> listOfIps)
-    {
-        return new Runnable()
-        {
+    private Runnable runServerQuery(final String ipAddress, final int buttonPressId, final ArrayList<IpResponse> listOfIps) {
+        return new Runnable() {
             @Override
-            public void run()
-            {
-                if(buttonPressId == buttonPressedIdGlobal)
-                {
-                    GetIpDetailsFromServer.getIpFromServer(MapsActivity.this, ipAddress, new OnResponseListener()
-                    {
+            public void run() {
+                if (buttonPressId == buttonPressedIdGlobal) {
+                    GetIpDetailsFromServer.getIpFromServer(MapsActivity.this, ipAddress, new OnResponseListener() {
                         @Override
-                        public void onResponseReceived(String ipAddress, IpResponse ipResponse)
-                        {
+                        public void onResponseReceived(String ipAddress, IpResponse ipResponse) {
                             Double lat = Utilities.getStrinAsDbl(ipResponse.getLatitude());
                             Double lng = Utilities.getStrinAsDbl(ipResponse.getLongitude());
-                            if(lat > 0 || lng > 0)
-                            {
+                            if (lat > 0 || lng > 0) {
                                 listOfIps.add(ipResponse);
-                                if (mMap != null)
-                                {
+                                if (mMap != null) {
                                     LatLng latLng = new LatLng(lat, lng);
                                     mMap.addMarker(new MarkerOptions().position(latLng).title(ipAddress));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -201,8 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         SharedPreferences fis = getSharedPreferences(Constants.PREFS_FILE, MODE_PRIVATE);
         ipFirst.setText(fis.getString(Constants.IP_FIRST, "40"));
         ipSecond.setText(fis.getString(Constants.IP_SECOND, "4"));
@@ -216,18 +192,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
 
         super.onPause();
-        if (!writeInstanceState(this))
-        {
+        if (!writeInstanceState(this)) {
             Toast.makeText(this, "Failed to write state!", Toast.LENGTH_LONG).show();
         }
     }
 
-    private boolean writeInstanceState(Activity c)
-    {
+    private boolean writeInstanceState(Activity c) {
         SharedPreferences p = c.getSharedPreferences(Constants.PREFS_FILE, MODE_PRIVATE);
         SharedPreferences.Editor e = p.edit();
         e.putString(Constants.IP_FIRST, ipFirst.getText().toString().trim());
@@ -240,31 +213,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         e.putString(Constants.IP_FOURTHB, ipFourthB.getText().toString().trim());
         return (e.commit());
     }
+
     private View.OnClickListener setListener(final TextView textView, final TextView limitationViewMin,
-                                             final TextView limitationViewMax, final int id)
-    {
-        return new View.OnClickListener()
-        {
+                                             final TextView limitationViewMax, final int id) {
+        return new View.OnClickListener() {
             @Override
-            public void onClick(final View view)
-            {
-                Utilities.EditDraw interfaceEdit = new Utilities.EditDraw()
-                {
+            public void onClick(final View view) {
+                Utilities.EditDraw interfaceEdit = new Utilities.EditDraw() {
                     @Override
-                    public void updateIp(int ipValue)
-                    {
+                    public void updateIp(int ipValue) {
                         textView.setText(String.valueOf(ipValue));
                         onValueSet(id);
                     }
                 };
                 Integer limitationMin = 0;
-                if (limitationViewMin != null)
-                {
+                if (limitationViewMin != null) {
                     limitationMin = Utilities.getStringAsInt(limitationViewMin.getText().toString());
                 }
                 Integer limitationMax = 255;
-                if (limitationViewMax != null)
-                {
+                if (limitationViewMax != null) {
                     limitationMax = Utilities.getStringAsInt(limitationViewMax.getText().toString());
                 }
                 Utilities.editIP(MapsActivity.this, limitationMin, limitationMax,
@@ -283,20 +250,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
     }
 
     @Override
-    public void negativeActionDialogClick(int dialogId, String[] extras)
-    {
-
+    public void negativeActionDialogClick(int dialogId, String[] extras) {
     }
 
     @Override
-    public void positiveActionDialogClick(int dialogId, String[] extras)
-    {
-
+    public void positiveActionDialogClick(int dialogId, String[] extras) {
     }
 }

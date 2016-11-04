@@ -20,23 +20,19 @@ import java.util.regex.Pattern;
 /**
  * Created by george on 11/19/2015.
  */
-public class Utilities
-{
-    public interface EditDraw
-    {
+public class Utilities {
+    public interface EditDraw {
         void updateIp(int ip);
     }
 
     /**
-     *
      * @param activity
      * @param minBall
      * @param maxBall
      * @param selectedVal
      * @param editIpInterface
      */
-    public static void editIP(Activity activity, int minBall, int maxBall, int selectedVal, final EditDraw editIpInterface)
-    {
+    public static void editIP(Activity activity, int minBall, int maxBall, int selectedVal, final EditDraw editIpInterface) {
         final Dialog dialog = new Dialog(activity);
         dialog.setTitle("Select a new value");
         dialog.setContentView(R.layout.dialog_ip_picker);
@@ -47,30 +43,23 @@ public class Utilities
         nPicker.setMinValue(minBall);
         nPicker.setValue(selectedVal > maxBall ? 1 : selectedVal);
         nPicker.setWrapSelectorWheel(false);
-        nPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
-        {
+        nPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal)
-            {
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
             }
         });
-        b1.setOnClickListener(new View.OnClickListener()
-        {
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (editIpInterface != null)
-                {
+            public void onClick(View v) {
+                if (editIpInterface != null) {
                     editIpInterface.updateIp(nPicker.getValue());
                 }
                 dialog.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
@@ -82,8 +71,7 @@ public class Utilities
      * @param valueToParse
      * @return
      */
-    public static Integer getStringAsInt(String valueToParse)
-    {
+    public static Integer getStringAsInt(String valueToParse) {
         return getStringAsInt(valueToParse, 0);
     }
 
@@ -92,19 +80,14 @@ public class Utilities
      * @param retValDefault
      * @return
      */
-    public static Integer getStringAsInt(String valueToParse, Integer retValDefault)
-    {
-        try
-        {
-            if (isNumeric(valueToParse))
-            {
+    public static Integer getStringAsInt(String valueToParse, Integer retValDefault) {
+        try {
+            if (isNumeric(valueToParse)) {
                 retValDefault = Integer.parseInt(valueToParse);
             }
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        } finally
-        {
+        } finally {
             return retValDefault;
         }
     }
@@ -113,8 +96,7 @@ public class Utilities
      * @param valueToParse
      * @return
      */
-    public static Double getStrinAsDbl(String valueToParse)
-    {
+    public static Double getStrinAsDbl(String valueToParse) {
         return getStringAsDbl(valueToParse, 0.0);
     }
 
@@ -123,19 +105,14 @@ public class Utilities
      * @param retValDefault
      * @return
      */
-    public static Double getStringAsDbl(String valueToParse, Double retValDefault)
-    {
-        try
-        {
-            if (isNumericDouble(valueToParse))
-            {
+    public static Double getStringAsDbl(String valueToParse, Double retValDefault) {
+        try {
+            if (isNumericDouble(valueToParse)) {
                 retValDefault = Double.parseDouble(valueToParse);
             }
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        } finally
-        {
+        } finally {
             return retValDefault;
         }
     }
@@ -144,10 +121,8 @@ public class Utilities
      * @param stringValue
      * @return
      */
-    public static boolean isNumeric(String stringValue)
-    {
-        if (TextUtils.isEmpty(stringValue))
-        {
+    public static boolean isNumeric(String stringValue) {
+        if (TextUtils.isEmpty(stringValue)) {
             return false;
         }
         Pattern p = Pattern.compile("[-+]?[0-9]*");
@@ -159,10 +134,8 @@ public class Utilities
      * @param stringValue
      * @return
      */
-    public static boolean isNumericDouble(String stringValue)
-    {
-        if (TextUtils.isEmpty(stringValue))
-        {
+    public static boolean isNumericDouble(String stringValue) {
+        if (TextUtils.isEmpty(stringValue)) {
             return false;
         }
         Pattern p = Pattern.compile("[-+]?[0-9]*[.]?[0-9]*");
@@ -171,19 +144,15 @@ public class Utilities
     }
 
     /**
-     *
      * @param context
      * @return
      */
-    public static boolean isNetworkAvailable(Context context)
-    {
-        try
-        {
+    public static boolean isNetworkAvailable(Context context) {
+        try {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return true;
         }
@@ -195,10 +164,8 @@ public class Utilities
      * @param tag
      * @param textToLog
      */
-    public static void logMsg(String tag, String textToLog)
-    {
-        if (BuildConfig.DEBUG)
-        {
+    public static void logMsg(String tag, String textToLog) {
+        if (BuildConfig.DEBUG) {
             Log.d(tag, textToLog);
         }
     }
@@ -208,9 +175,7 @@ public class Utilities
      *
      * @param textToLog
      */
-    public static void logMsg(String textToLog)
-    {
+    public static void logMsg(String textToLog) {
         logMsg("LogMsg:", textToLog);
     }
-
 }

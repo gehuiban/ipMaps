@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class ServerError extends VolleyError implements Serializable
-{
+public class ServerError extends VolleyError implements Serializable {
     private String message;
     private String result;
     private String code;
@@ -27,140 +26,109 @@ public class ServerError extends VolleyError implements Serializable
 
     private HashMap<String, ArrayList<ValueRuleMessage>> invalidAttributesMap = null;
 
-    public static class ValueRuleMessage
-    {
+    public static class ValueRuleMessage {
         public final String value;
         public final String rule;
         public final String message;
 
-        public ValueRuleMessage(String value, String rule, String message)
-        {
+        public ValueRuleMessage(String value, String rule, String message) {
             this.value = value;
             this.rule = rule;
             this.message = message;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "value:" + value + ":rule:" + rule + ":message:" + message;
         }
-
     }
 
-    public ServerError()
-    {
-
+    public ServerError() {
     }
 
     /**
-     *
      * @param value
      * @param valueName
      * @return
      * @throws ServerException
      */
-    public static long convertToLong(String value, String valueName) throws ServerException
-    {
-        if (value == null)
-        {
+    public static long convertToLong(String value, String valueName) throws ServerException {
+        if (value == null) {
             throw new ServerException("Server failed to return '" + valueName + "'");
         }
-
-        try
-        {
+        try {
             long valueAsLong = Long.parseLong(value);
             return valueAsLong;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             throw new ServerException("Server returned '" + valueName + "' in an invalid format:" + value, ex);
         }
     }
 
     /**
-     * 
      * @return
      */
-    public String getError()
-    {
+    public String getError() {
         return error;
     }
 
     /**
-     * 
      * @return
      */
-    public Integer getStatus()
-    {
+    public Integer getStatus() {
         return status;
     }
 
     /**
-     * 
      * @return
      */
-    public String getSummary()
-    {
+    public String getSummary() {
         return summary;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return super.getMessage();
         //return message;
     }
 
     /**
-     * @deprecated
      * @return
      * @throws ServerException
+     * @deprecated
      */
-    public long getCode() throws ServerException
-    {
+    public long getCode() throws ServerException {
         return convertToLong(code, "code");
     }
 
     /**
-     * @deprecated
      * @return
      * @throws ServerException
+     * @deprecated
      */
-    public long getResult() throws ServerException
-    {
-        if (result == null)
-        {
+    public long getResult() throws ServerException {
+        if (result == null) {
             return 0;
-        }
-        else
-        {
+        } else {
             return convertToLong(result, "result");
         }
     }
 
-    public JsonObject getInvalidAttributes()
-    {
+    public JsonObject getInvalidAttributes() {
         return invalidAttributes;
     }
 
-    public String getModel()
-    {
+    public String getModel() {
         return model;
     }
 
-    public HashMap<String, ArrayList<ValueRuleMessage>> getErrorMap()
-    {
-        if (getInvalidAttributes() != null && invalidAttributesMap == null)
-        {
+    public HashMap<String, ArrayList<ValueRuleMessage>> getErrorMap() {
+        if (getInvalidAttributes() != null && invalidAttributesMap == null) {
             invalidAttributesMap = new HashMap<String, ArrayList<ValueRuleMessage>>();
 
-            for (Entry<String, JsonElement> element : getInvalidAttributes().entrySet())
-            {
+            for (Entry<String, JsonElement> element : getInvalidAttributes().entrySet()) {
                 String key = element.getKey();
                 JsonElement jsonElement = element.getValue();
                 JsonArray jsonArray = jsonElement.getAsJsonArray();
-                for (int inx = 0; inx < jsonArray.size(); ++inx)
-                {
+                for (int inx = 0; inx < jsonArray.size(); ++inx) {
                     JsonElement elm = jsonArray.get(inx);
                     JsonObject obj = elm.getAsJsonObject();
                     JsonPrimitive value = obj.getAsJsonPrimitive("value");
@@ -168,36 +136,28 @@ public class ServerError extends VolleyError implements Serializable
                     JsonPrimitive message = obj.getAsJsonPrimitive("message");
 
                     ArrayList<ValueRuleMessage> vrms = invalidAttributesMap.get(key);
-                    if (vrms == null)
-                    {
+                    if (vrms == null) {
                         vrms = new ArrayList<ValueRuleMessage>();
                         invalidAttributesMap.put(key, vrms);
                     }
-
-                    vrms.add(new ValueRuleMessage(value != null ? value.getAsString() : "unknown value", rule != null ? rule.getAsString(): "unknown rule", message != null ? message.getAsString(): "unknown message"));
-
+                    vrms.add(new ValueRuleMessage(value != null ? value.getAsString() : "unknown value",
+                            rule != null ? rule.getAsString() : "unknown rule",
+                            message != null ? message.getAsString() : "unknown message"));
                 }
-
             }
-
         }
-
         return invalidAttributesMap;
     }
 
-    public void dumpInvalidArgsToLog()
-    {
+    public void dumpInvalidArgsToLog() {
         HashMap<String, ArrayList<ValueRuleMessage>> errorMap = getErrorMap();
 
-        if (errorMap != null)
-        {
+        if (errorMap != null) {
 
-            for (String key : errorMap.keySet())
-            {
+            for (String key : errorMap.keySet()) {
                 Log.d("invalid arg", "invalid arg:" + key + ":" + errorMap.get(key));
             }
 
         }
     }
-
 }

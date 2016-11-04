@@ -11,33 +11,30 @@ import com.logan19gp.ipmaps.MapsActivity;
 import com.logan19gp.ipmaps.R;
 
 
-public class DialogUtil
-{
-    public static class MyAlertDialogFragment extends DialogFragment
-    {
+public class DialogUtil {
+    public static class MyAlertDialogFragment extends DialogFragment {
         public interface DialogUtilActivity {
             public void positiveActionDialogClick(int dialogId, String... extras);
+
             public void negativeActionDialogClick(int dialogId, String... extras);
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            if(!(activity instanceof DialogUtilActivity)){
+            if (!(activity instanceof DialogUtilActivity)) {
                 throw new IllegalAccessError("Activities using MyAlertDialogFragment must implement DialogUtilActivity");
             }
         }
 
         public static MyAlertDialogFragment newInstance(int dialogId, String title, String message,
-                boolean positiveButton, boolean negativeButton, String... extras)
-        {
-            return newInstance(dialogId,title,message,positiveButton,negativeButton, R.string.ok_st, R.string.cancel, extras);
+                                                        boolean positiveButton, boolean negativeButton, String... extras) {
+            return newInstance(dialogId, title, message, positiveButton, negativeButton, R.string.ok_st, R.string.cancel, extras);
         }
 
         public static MyAlertDialogFragment newInstance(int dialogId, String title, String message,
                                                         boolean positiveButton, boolean negativeButton, int res_id_positive_action_string,
-                                                        int res_id_of_negative_action_string, String... extras)
-        {
+                                                        int res_id_of_negative_action_string, String... extras) {
             MyAlertDialogFragment frag = new MyAlertDialogFragment();
             Bundle args = new Bundle();
             args.putInt("dialog_id", dialogId);
@@ -46,16 +43,15 @@ public class DialogUtil
             args.putBoolean("positiveButton", positiveButton);
             args.putBoolean("negativeButton", negativeButton);
             args.putSerializable("extras", extras);
-            args.putInt("positive_action",res_id_positive_action_string);
-            args.putInt("negative_action",res_id_of_negative_action_string);
+            args.putInt("positive_action", res_id_positive_action_string);
+            args.putInt("negative_action", res_id_of_negative_action_string);
             frag.setArguments(args);
             return frag;
         }
 
         public static MyAlertDialogFragment newInstance(int dialogId, String title, String message,
                                                         boolean positiveButton, boolean negativeButton, boolean cancelButton, int res_id_positive_action_string,
-                                                        int res_id_of_negative_action_string, int res_id_of_cancel_action_string, String... extras)
-        {
+                                                        int res_id_of_negative_action_string, int res_id_of_cancel_action_string, String... extras) {
             MyAlertDialogFragment frag = new MyAlertDialogFragment();
             Bundle args = new Bundle();
             args.putInt("dialog_id", dialogId);
@@ -66,15 +62,14 @@ public class DialogUtil
             args.putBoolean("cancelButton", cancelButton);
             args.putSerializable("extras", extras);
             args.putInt("positive_action", res_id_positive_action_string);
-            args.putInt("negative_action",res_id_of_negative_action_string);
-            args.putInt("cancel_action",res_id_of_cancel_action_string);
+            args.putInt("negative_action", res_id_of_negative_action_string);
+            args.putInt("cancel_action", res_id_of_cancel_action_string);
             frag.setArguments(args);
             return frag;
         }
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState)
-        {
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             final int dialogId = getArguments().getInt("dialog_id");
             String title = getArguments().getString("title");
             String message = getArguments().getString("message");
@@ -83,8 +78,7 @@ public class DialogUtil
             boolean negativeButton = getArguments().getBoolean("negativeButton");
             Boolean cancelButton = null;
 
-            if (getArguments().containsKey("cancelButton"))
-            {
+            if (getArguments().containsKey("cancelButton")) {
                 cancelButton = getArguments().getBoolean("cancelButton");
             }
 
@@ -94,8 +88,7 @@ public class DialogUtil
 
             Integer res_string_id_for_Cancel_action = null;
 
-            if (getArguments().containsKey("cancel_action"))
-            {
+            if (getArguments().containsKey("cancel_action")) {
                 res_string_id_for_Cancel_action = getArguments().getInt("cancel_action");
             }
 
@@ -105,20 +98,14 @@ public class DialogUtil
             builder.setTitle(title);
             builder.setMessage(message);
 
-            if (positiveButton)
-            {
-                builder.setPositiveButton(res_string_id_for_positive_action, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
+            if (positiveButton) {
+                builder.setPositiveButton(res_string_id_for_positive_action, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
                         Activity activity = getActivity();
 
-                        if (activity instanceof DialogUtilActivity)
-                        {
-                            ((DialogUtilActivity)activity).positiveActionDialogClick(dialogId, extras);
-                        }
-                        else
-                        {
+                        if (activity instanceof DialogUtilActivity) {
+                            ((DialogUtilActivity) activity).positiveActionDialogClick(dialogId, extras);
+                        } else {
                             ((MapsActivity) activity).positiveActionDialogClick(dialogId, extras);
                         }
                     }
@@ -126,32 +113,23 @@ public class DialogUtil
 
             }
 
-            if (negativeButton)
-            {
-                builder.setNegativeButton(res_string_id_for_negative_action, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
+            if (negativeButton) {
+                builder.setNegativeButton(res_string_id_for_negative_action, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
                         Activity activity = getActivity();
 
-                        if (activity instanceof DialogUtilActivity)
-                        {
+                        if (activity instanceof DialogUtilActivity) {
                             ((DialogUtilActivity) activity).negativeActionDialogClick(dialogId, extras);
-                        }
-                        else
-                        {
+                        } else {
                             ((MapsActivity) activity).negativeActionDialogClick(dialogId, extras);
                         }
                     }
                 });
             }
 
-            if (cancelButton != null && cancelButton && res_string_id_for_Cancel_action != null)
-            {
-                builder.setNeutralButton(res_string_id_for_Cancel_action, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int whichButton)
-                    {
+            if (cancelButton != null && cancelButton && res_string_id_for_Cancel_action != null) {
+                builder.setNeutralButton(res_string_id_for_Cancel_action, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                     }
                 });
@@ -163,35 +141,28 @@ public class DialogUtil
     }
 
     public static void showDialog(Activity activity, int dialogId, String title, String message, boolean usePositive,
-            boolean useNegative, String... extras)
-    {
+                                  boolean useNegative, String... extras) {
         DialogFragment newFragment = MyAlertDialogFragment.newInstance(dialogId, title, message, usePositive, useNegative, extras);
         newFragment.show(activity.getFragmentManager(), "dialog:" + dialogId);
     }
 
-    public static void showDialog(Activity activity, int dialogId, String title, String message,  int res_id_positive_action_string, int res_id_negative_action_str, String... extras)
-    {
+    public static void showDialog(Activity activity, int dialogId, String title, String message, int res_id_positive_action_string, int res_id_negative_action_str, String... extras) {
         DialogFragment newFragment = MyAlertDialogFragment.newInstance(dialogId, title, message, true,
                 true, res_id_positive_action_string, res_id_negative_action_str, extras);
         newFragment.show(activity.getFragmentManager(), "dialog:" + dialogId);
     }
 
-    public static void showDialog(Activity activity, int dialogId, String title, String message,  int res_id_positive_action_string, int res_id_negative_action_str, int res_id_cancal_action_str, String... extras)
-    {
+    public static void showDialog(Activity activity, int dialogId, String title, String message, int res_id_positive_action_string, int res_id_negative_action_str, int res_id_cancal_action_str, String... extras) {
         DialogFragment newFragment = MyAlertDialogFragment.newInstance(dialogId, title, message, true,
                 true, true, res_id_positive_action_string, res_id_negative_action_str, res_id_cancal_action_str, extras);
         newFragment.show(activity.getFragmentManager(), "dialog:" + dialogId);
     }
 
-    public static void showErrorDialog(Activity activity, int dialogId, String title, String message)
-    {
-        try
-        {
+    public static void showErrorDialog(Activity activity, int dialogId, String title, String message) {
+        try {
             DialogFragment newFragment = MyAlertDialogFragment.newInstance(dialogId, title, message, true, false);
             newFragment.show(activity.getFragmentManager(), "dialog:" + dialogId);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 

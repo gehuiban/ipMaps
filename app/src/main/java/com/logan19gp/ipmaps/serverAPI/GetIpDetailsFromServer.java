@@ -35,14 +35,6 @@ public class GetIpDetailsFromServer
                 {
                     ServerAPIClient client = new ServerAPIClient();
                     Map<String, String> serverHeaderOverrides = new HashMap<String, String>();
-                    client.setJsonStreamFilter(new ServerAPIClient.JsonStreamFilter(){
-                        @Override
-                        public String applyFilterSuccessData(String original)
-                        {
-                            String retString = original.replaceAll("\"cash_ball\":", "\"mega_ball\":");
-                            return retString;
-                        }
-                    });
                     ResponseOrError<IpResponse> responseOrError = client.addRequest_synchronous_custom(Request.Method.GET,
                             url, bodyBuilder.toString(), IpResponse.class, serverHeaderOverrides, url);
                     if (responseOrError.isValid())
